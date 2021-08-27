@@ -3,7 +3,7 @@ locals {
   module_version = "0.1.0"
 
   app_name    = "snowplow-postgres-loader"
-  app_version = "0.2.0"
+  app_version = "0.3.1"
 
   local_labels = {
     name           = var.name
@@ -165,15 +165,19 @@ locals {
   db_host = var.db_instance_name == "" ? var.db_host : "127.0.0.1"
 
   config = templatefile("${path.module}/templates/config.json.tmpl", {
-    project_id           = var.project_id
-    in_subscription_name = google_pubsub_subscription.in.name
-    db_host              = local.db_host
-    db_port              = var.db_port
-    db_name              = var.db_name
-    db_username          = var.db_username
-    db_password          = var.db_password
-    schema_name          = var.schema_name
-    purpose              = var.purpose
+    project_id                    = var.project_id
+    in_subscription_name          = google_pubsub_subscription.in.name
+    in_max_concurrent_checkpoints = var.in_max_concurrent_checkpoints
+
+    db_host            = local.db_host
+    db_port            = var.db_port
+    db_name            = var.db_name
+    db_username        = var.db_username
+    db_password        = var.db_password
+    db_max_connections = var.db_max_connections
+
+    schema_name = var.schema_name
+    purpose     = var.purpose
   })
 
   startup_script = templatefile("${path.module}/templates/startup-script.sh.tmpl", {
