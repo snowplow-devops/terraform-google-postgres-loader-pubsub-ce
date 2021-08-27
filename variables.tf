@@ -88,6 +88,12 @@ variable "in_topic_name" {
   type        = string
 }
 
+variable "in_max_concurrent_checkpoints" {
+  description = "The maximum number of concurrent effects for the topic checkpointing system - essentially how many concurrent acks we will make to PubSub"
+  type        = number
+  default     = 100
+}
+
 variable "purpose" {
   description = "The type of data the loader will be pulling which can be one of ENRICHED_EVENTS or JSON (Note: JSON can be used for loading bad rows)"
   type        = string
@@ -129,6 +135,12 @@ variable "db_password" {
   description = "The password to use to connect to the database"
   type        = string
   sensitive   = true
+}
+
+variable "db_max_connections" {
+  description = "The maximum number of connections to the backing database"
+  type        = number
+  default     = 10
 }
 
 # --- Iglu Resolver

@@ -3,17 +3,23 @@
     "type": "PubSub"
     "projectId": "${project_id}"
     "subscriptionId": "${in_subscription_name}"
+    "checkpointSettings": {
+      "maxConcurrent": ${in_max_concurrent_checkpoints}
+    }
   }
 
   "output": {
-    "type": "Postgres"
-    "host": "${db_host}"
-    "port": ${db_port}
-    "database": "${db_name}"
-    "username": "${db_username}"
-    "password": "${db_password}"
-    "schema": "${schema_name}"
-    "sslMode": "PREFER"
+    "good" {
+      "type": "Postgres"
+      "host": "${db_host}"
+      "port": ${db_port}
+      "database": "${db_name}"
+      "username": "${db_username}"
+      "password": "${db_password}"
+      "schema": "${schema_name}"
+      "sslMode": "PREFER"
+      "maxConnections": ${db_max_connections}
+    }
   }
 
   "purpose": "${purpose}"
