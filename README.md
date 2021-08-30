@@ -4,6 +4,8 @@
 
 A Terraform module which deploys a Snowplow Postgres Loader application on Google running on top of Compute Engine.  If you want to use a custom image for this deployment you will need to ensure it is based on top of Ubuntu 20.04.
 
+_WARNING_: If you are upgrading from module version 0.1.x you will need to issue a manual table update - [details can be found here](https://discourse.snowplowanalytics.com/t/snowplow-postgres-loader-0-3-0-released/5553#changing-some-of-the-column-types-7).  You will need to adjust the alter table command with the schema that your `events` table is deployed within.
+
 ## Telemetry
 
 This module by default collects and forwards telemetry information to Snowplow to understand how our applications are being used.  No identifying information about your sub-account or account fingerprints are ever forwarded to us - it is very simple information about what modules and applications are deployed and active.
