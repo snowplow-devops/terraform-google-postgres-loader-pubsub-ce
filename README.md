@@ -29,14 +29,14 @@ To start loading "enriched" data into Postgres:
 ```hcl
 module "enriched_topic" {
   source  = "snowplow-devops/pubsub-topic/google"
-  version = "0.1.0"
+  version = "0.3.0"
 
   name = "enriched-topic"
 }
 
 module "pipeline_db" {
   source  = "snowplow-devops/cloud-sql/google"
-  version = "0.1.0"
+  version = "0.3.0"
 
   name = "pipeline-db"
 
@@ -95,7 +95,7 @@ To load the "bad" data instead:
 ```hcl
 module "bad_1_topic" {
   source  = "snowplow-devops/pubsub-topic/google"
-  version = "0.1.0"
+  version = "0.3.0"
 
   name = "bad-1-topic"
 }
@@ -146,7 +146,7 @@ module "postgres_loader_bad" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.15 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
 | <a name="requirement_google"></a> [google](#requirement\_google) | >= 3.44.0 |
 
 ## Providers
@@ -159,7 +159,8 @@ module "postgres_loader_bad" {
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_telemetry"></a> [telemetry](#module\_telemetry) | snowplow-devops/telemetry/snowplow | 0.2.0 |
+| <a name="module_service"></a> [service](#module\_service) | snowplow-devops/service-ce/google | 0.1.0 |
+| <a name="module_telemetry"></a> [telemetry](#module\_telemetry) | snowplow-devops/telemetry/snowplow | 0.5.0 |
 
 ## Resources
 
@@ -167,8 +168,6 @@ module "postgres_loader_bad" {
 |------|------|
 | [google_compute_firewall.egress](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall) | resource |
 | [google_compute_firewall.ingress_ssh](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall) | resource |
-| [google_compute_instance_template.tpl](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_instance_template) | resource |
-| [google_compute_region_instance_group_manager.grp](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_region_instance_group_manager) | resource |
 | [google_project_iam_member.sa_cloud_sql_client](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_member) | resource |
 | [google_project_iam_member.sa_logging_log_writer](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_member) | resource |
 | [google_project_iam_member.sa_pubsub_publisher](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_member) | resource |
@@ -176,7 +175,6 @@ module "postgres_loader_bad" {
 | [google_project_iam_member.sa_pubsub_viewer](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_member) | resource |
 | [google_pubsub_subscription.in](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/pubsub_subscription) | resource |
 | [google_service_account.sa](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account) | resource |
-| [google_compute_image.ubuntu_20_04](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/compute_image) | data source |
 
 ## Inputs
 
@@ -189,10 +187,11 @@ module "postgres_loader_bad" {
 | <a name="input_in_topic_name"></a> [in\_topic\_name](#input\_in\_topic\_name) | The name of the input pubsub topic that the loader will pull data from | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | A name which will be pre-pended to the resources created | `string` | n/a | yes |
 | <a name="input_network"></a> [network](#input\_network) | The name of the network to deploy within | `string` | n/a | yes |
-| <a name="input_project_id"></a> [project\_id](#input\_project\_id) | The id of the project in which this resource is created | `string` | n/a | yes |
+| <a name="input_project_id"></a> [project\_id](#input\_project\_id) | The project ID in which the stack is being deployed | `string` | n/a | yes |
 | <a name="input_purpose"></a> [purpose](#input\_purpose) | The type of data the loader will be pulling which can be one of ENRICHED\_EVENTS or JSON (Note: JSON can be used for loading bad rows) | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | The name of the region to deploy within | `string` | n/a | yes |
 | <a name="input_schema_name"></a> [schema\_name](#input\_schema\_name) | The database schema to load data into (e.g atomic \| atomic\_bad) | `string` | n/a | yes |
+| <a name="input_app_version"></a> [app\_version](#input\_app\_version) | App version to use. This variable facilitates dev flow, the modules may not work with anything other than the default value. | `string` | `"0.3.1"` | no |
 | <a name="input_associate_public_ip_address"></a> [associate\_public\_ip\_address](#input\_associate\_public\_ip\_address) | Whether to assign a public ip address to this instance; if false this instance must be behind a Cloud NAT to connect to the internet | `bool` | `true` | no |
 | <a name="input_custom_iglu_resolvers"></a> [custom\_iglu\_resolvers](#input\_custom\_iglu\_resolvers) | The custom Iglu Resolvers that will be used by the loader to resolve and validate events | <pre>list(object({<br>    name            = string<br>    priority        = number<br>    uri             = string<br>    api_key         = string<br>    vendor_prefixes = list(string)<br>  }))</pre> | `[]` | no |
 | <a name="input_db_host"></a> [db\_host](#input\_db\_host) | The hostname of the database to connect to (Note: if db\_instance\_name is non-empty this setting is ignored) | `string` | `""` | no |
@@ -201,6 +200,7 @@ module "postgres_loader_bad" {
 | <a name="input_default_iglu_resolvers"></a> [default\_iglu\_resolvers](#input\_default\_iglu\_resolvers) | The default Iglu Resolvers that will be used by the loader to resolve and validate events | <pre>list(object({<br>    name            = string<br>    priority        = number<br>    uri             = string<br>    api_key         = string<br>    vendor_prefixes = list(string)<br>  }))</pre> | <pre>[<br>  {<br>    "api_key": "",<br>    "name": "Iglu Central",<br>    "priority": 10,<br>    "uri": "http://iglucentral.com",<br>    "vendor_prefixes": []<br>  },<br>  {<br>    "api_key": "",<br>    "name": "Iglu Central - Mirror 01",<br>    "priority": 20,<br>    "uri": "http://mirror01.iglucentral.com",<br>    "vendor_prefixes": []<br>  }<br>]</pre> | no |
 | <a name="input_gcp_logs_enabled"></a> [gcp\_logs\_enabled](#input\_gcp\_logs\_enabled) | Whether application logs should be reported to GCP Logging | `bool` | `true` | no |
 | <a name="input_in_max_concurrent_checkpoints"></a> [in\_max\_concurrent\_checkpoints](#input\_in\_max\_concurrent\_checkpoints) | The maximum number of concurrent effects for the topic checkpointing system - essentially how many concurrent acks we will make to PubSub | `number` | `100` | no |
+| <a name="input_java_opts"></a> [java\_opts](#input\_java\_opts) | Custom JAVA Options | `string` | `"-XX:InitialRAMPercentage=75 -XX:MaxRAMPercentage=75"` | no |
 | <a name="input_labels"></a> [labels](#input\_labels) | The labels to append to this resource | `map(string)` | `{}` | no |
 | <a name="input_machine_type"></a> [machine\_type](#input\_machine\_type) | The machine type to use | `string` | `"e2-small"` | no |
 | <a name="input_ssh_block_project_keys"></a> [ssh\_block\_project\_keys](#input\_ssh\_block\_project\_keys) | Whether to block project wide SSH keys | `bool` | `true` | no |
