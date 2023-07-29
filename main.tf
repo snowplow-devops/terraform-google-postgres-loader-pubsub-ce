@@ -1,6 +1,6 @@
 locals {
   module_name    = "postgres-loader-pubsub-ce"
-  module_version = "0.2.1"
+  module_version = "0.3.0"
 
   app_name    = "snowplow-postgres-loader"
   app_version = var.app_version
