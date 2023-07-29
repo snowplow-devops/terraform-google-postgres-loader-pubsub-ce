@@ -1,3 +1,8 @@
+Version 0.3.0 (2023-07-29)
+--------------------------
+Leverage common service module (#6)
+Update to Snowplow Community Licence (#7)
+
 Version 0.2.1 (2021-10-11)
 --------------------------
 Update docker_ce to always use latest stable version (#5)
