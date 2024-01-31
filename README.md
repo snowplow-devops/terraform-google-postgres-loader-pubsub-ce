@@ -55,6 +55,8 @@ module "pipeline_db" {
 module "postgres_loader_enriched" {
   source = "snowplow-devops/postgres-loader-pubsub-ce/google"
 
+  accept_limited_use_license = true
+
   name = "pg-loader-enriched-server"
 
   network    = var.network
@@ -102,6 +104,8 @@ module "bad_1_topic" {
 
 module "postgres_loader_bad" {
   source = "snowplow-devops/postgres-loader-pubsub-ce/google"
+
+  accept_limited_use_license = true
 
   name = "pg-loader-bad-server"
 
@@ -191,6 +195,7 @@ module "postgres_loader_bad" {
 | <a name="input_purpose"></a> [purpose](#input\_purpose) | The type of data the loader will be pulling which can be one of ENRICHED\_EVENTS or JSON (Note: JSON can be used for loading bad rows) | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | The name of the region to deploy within | `string` | n/a | yes |
 | <a name="input_schema_name"></a> [schema\_name](#input\_schema\_name) | The database schema to load data into (e.g atomic \| atomic\_bad) | `string` | n/a | yes |
+| <a name="input_accept_limited_use_license"></a> [accept\_limited\_use\_license](#input\_accept\_limited\_use\_license) | Acceptance of the SLULA terms (https://docs.snowplow.io/limited-use-license-1.0/) | `bool` | `false` | no |
 | <a name="input_app_version"></a> [app\_version](#input\_app\_version) | App version to use. This variable facilitates dev flow, the modules may not work with anything other than the default value. | `string` | `"0.3.1"` | no |
 | <a name="input_associate_public_ip_address"></a> [associate\_public\_ip\_address](#input\_associate\_public\_ip\_address) | Whether to assign a public ip address to this instance; if false this instance must be behind a Cloud NAT to connect to the internet | `bool` | `true` | no |
 | <a name="input_custom_iglu_resolvers"></a> [custom\_iglu\_resolvers](#input\_custom\_iglu\_resolvers) | The custom Iglu Resolvers that will be used by the loader to resolve and validate events | <pre>list(object({<br>    name            = string<br>    priority        = number<br>    uri             = string<br>    api_key         = string<br>    vendor_prefixes = list(string)<br>  }))</pre> | `[]` | no |
@@ -222,15 +227,9 @@ module "postgres_loader_bad" {
 
 # Copyright and license
 
-The Terraform Google Postgres Loader on Compute Engine project is Copyright 2021-present Snowplow Analytics Ltd.
+Copyright 2021-present Snowplow Analytics Ltd.
 
-Licensed under the [Snowplow Community License](https://docs.snowplow.io/community-license-1.0). _(If you are uncertain how it applies to your use case, check our answers to [frequently asked questions](https://docs.snowplow.io/docs/contributing/community-license-faq/).)_
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+Licensed under the [Snowplow Limited Use License Agreement][license]. _(If you are uncertain how it applies to your use case, check our answers to [frequently asked questions][license-faq].)_
 
 [release]: https://github.com/snowplow-devops/terraform-google-postgres-loader-pubsub-ce/releases/latest
 [release-image]: https://img.shields.io/github/v/release/snowplow-devops/terraform-google-postgres-loader-pubsub-ce
@@ -238,8 +237,9 @@ limitations under the License.
 [ci]: https://github.com/snowplow-devops/terraform-google-postgres-loader-pubsub-ce/actions?query=workflow%3Aci
 [ci-image]: https://github.com/snowplow-devops/terraform-google-postgres-loader-pubsub-ce/workflows/ci/badge.svg
 
-[license]: https://docs.snowplow.io/docs/contributing/community-license-faq/
-[license-image]: https://img.shields.io/badge/license-Snowplow--Community-blue.svg?style=flat
+[license]: https://docs.snowplow.io/limited-use-license-1.0/
+[license-image]: https://img.shields.io/badge/license-Snowplow--Limited--Use-blue.svg?style=flat
+[license-faq]: https://docs.snowplow.io/docs/contributing/limited-use-license-faq/
 
 [registry]: https://registry.terraform.io/modules/snowplow-devops/postgres-loader-pubsub-ce/google/latest
 [registry-image]: https://img.shields.io/static/v1?label=Terraform&message=Registry&color=7B42BC&logo=terraform

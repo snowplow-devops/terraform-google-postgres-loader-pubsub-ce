@@ -181,6 +181,8 @@ locals {
   })
 
   startup_script = templatefile("${path.module}/templates/startup-script.sh.tmpl", {
+    accept_limited_use_license = var.accept_limited_use_license
+
     config_b64        = base64encode(local.config)
     iglu_resolver_b64 = base64encode(local.iglu_resolver)
     version           = local.app_version
