@@ -163,7 +163,7 @@ module "postgres_loader_bad" {
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_service"></a> [service](#module\_service) | snowplow-devops/service-ce/google | 0.1.0 |
+| <a name="module_service"></a> [service](#module\_service) | snowplow-devops/service-ce/google | 0.2.0 |
 | <a name="module_telemetry"></a> [telemetry](#module\_telemetry) | snowplow-devops/telemetry/snowplow | 0.5.0 |
 
 ## Resources
@@ -198,11 +198,11 @@ module "postgres_loader_bad" {
 | <a name="input_accept_limited_use_license"></a> [accept\_limited\_use\_license](#input\_accept\_limited\_use\_license) | Acceptance of the SLULA terms (https://docs.snowplow.io/limited-use-license-1.0/) | `bool` | `false` | no |
 | <a name="input_app_version"></a> [app\_version](#input\_app\_version) | App version to use. This variable facilitates dev flow, the modules may not work with anything other than the default value. | `string` | `"0.3.1"` | no |
 | <a name="input_associate_public_ip_address"></a> [associate\_public\_ip\_address](#input\_associate\_public\_ip\_address) | Whether to assign a public ip address to this instance; if false this instance must be behind a Cloud NAT to connect to the internet | `bool` | `true` | no |
-| <a name="input_custom_iglu_resolvers"></a> [custom\_iglu\_resolvers](#input\_custom\_iglu\_resolvers) | The custom Iglu Resolvers that will be used by the loader to resolve and validate events | <pre>list(object({<br>    name            = string<br>    priority        = number<br>    uri             = string<br>    api_key         = string<br>    vendor_prefixes = list(string)<br>  }))</pre> | `[]` | no |
+| <a name="input_custom_iglu_resolvers"></a> [custom\_iglu\_resolvers](#input\_custom\_iglu\_resolvers) | The custom Iglu Resolvers that will be used by the loader to resolve and validate events | <pre>list(object({<br/>    name            = string<br/>    priority        = number<br/>    uri             = string<br/>    api_key         = string<br/>    vendor_prefixes = list(string)<br/>  }))</pre> | `[]` | no |
 | <a name="input_db_host"></a> [db\_host](#input\_db\_host) | The hostname of the database to connect to (Note: if db\_instance\_name is non-empty this setting is ignored) | `string` | `""` | no |
 | <a name="input_db_instance_name"></a> [db\_instance\_name](#input\_db\_instance\_name) | The instance name of the CloudSQL instance to connect to (Note: if set db\_host will be ignored and a proxy established instead) | `string` | `""` | no |
 | <a name="input_db_max_connections"></a> [db\_max\_connections](#input\_db\_max\_connections) | The maximum number of connections to the backing database | `number` | `10` | no |
-| <a name="input_default_iglu_resolvers"></a> [default\_iglu\_resolvers](#input\_default\_iglu\_resolvers) | The default Iglu Resolvers that will be used by the loader to resolve and validate events | <pre>list(object({<br>    name            = string<br>    priority        = number<br>    uri             = string<br>    api_key         = string<br>    vendor_prefixes = list(string)<br>  }))</pre> | <pre>[<br>  {<br>    "api_key": "",<br>    "name": "Iglu Central",<br>    "priority": 10,<br>    "uri": "http://iglucentral.com",<br>    "vendor_prefixes": []<br>  },<br>  {<br>    "api_key": "",<br>    "name": "Iglu Central - Mirror 01",<br>    "priority": 20,<br>    "uri": "http://mirror01.iglucentral.com",<br>    "vendor_prefixes": []<br>  }<br>]</pre> | no |
+| <a name="input_default_iglu_resolvers"></a> [default\_iglu\_resolvers](#input\_default\_iglu\_resolvers) | The default Iglu Resolvers that will be used by the loader to resolve and validate events | <pre>list(object({<br/>    name            = string<br/>    priority        = number<br/>    uri             = string<br/>    api_key         = string<br/>    vendor_prefixes = list(string)<br/>  }))</pre> | <pre>[<br/>  {<br/>    "api_key": "",<br/>    "name": "Iglu Central",<br/>    "priority": 10,<br/>    "uri": "http://iglucentral.com",<br/>    "vendor_prefixes": []<br/>  },<br/>  {<br/>    "api_key": "",<br/>    "name": "Iglu Central - Mirror 01",<br/>    "priority": 20,<br/>    "uri": "http://mirror01.iglucentral.com",<br/>    "vendor_prefixes": []<br/>  }<br/>]</pre> | no |
 | <a name="input_gcp_logs_enabled"></a> [gcp\_logs\_enabled](#input\_gcp\_logs\_enabled) | Whether application logs should be reported to GCP Logging | `bool` | `true` | no |
 | <a name="input_in_max_concurrent_checkpoints"></a> [in\_max\_concurrent\_checkpoints](#input\_in\_max\_concurrent\_checkpoints) | The maximum number of concurrent effects for the topic checkpointing system - essentially how many concurrent acks we will make to PubSub | `number` | `100` | no |
 | <a name="input_java_opts"></a> [java\_opts](#input\_java\_opts) | Custom JAVA Options | `string` | `"-XX:InitialRAMPercentage=75 -XX:MaxRAMPercentage=75"` | no |
@@ -210,12 +210,12 @@ module "postgres_loader_bad" {
 | <a name="input_machine_type"></a> [machine\_type](#input\_machine\_type) | The machine type to use | `string` | `"e2-small"` | no |
 | <a name="input_network_project_id"></a> [network\_project\_id](#input\_network\_project\_id) | The project ID of the shared VPC in which the stack is being deployed | `string` | `""` | no |
 | <a name="input_ssh_block_project_keys"></a> [ssh\_block\_project\_keys](#input\_ssh\_block\_project\_keys) | Whether to block project wide SSH keys | `bool` | `true` | no |
-| <a name="input_ssh_ip_allowlist"></a> [ssh\_ip\_allowlist](#input\_ssh\_ip\_allowlist) | The list of CIDR ranges to allow SSH traffic from | `list(any)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
-| <a name="input_ssh_key_pairs"></a> [ssh\_key\_pairs](#input\_ssh\_key\_pairs) | The list of SSH key-pairs to add to the servers | <pre>list(object({<br>    user_name  = string<br>    public_key = string<br>  }))</pre> | `[]` | no |
+| <a name="input_ssh_ip_allowlist"></a> [ssh\_ip\_allowlist](#input\_ssh\_ip\_allowlist) | The list of CIDR ranges to allow SSH traffic from | `list(any)` | <pre>[<br/>  "0.0.0.0/0"<br/>]</pre> | no |
+| <a name="input_ssh_key_pairs"></a> [ssh\_key\_pairs](#input\_ssh\_key\_pairs) | The list of SSH key-pairs to add to the servers | <pre>list(object({<br/>    user_name  = string<br/>    public_key = string<br/>  }))</pre> | `[]` | no |
 | <a name="input_subnetwork"></a> [subnetwork](#input\_subnetwork) | The name of the sub-network to deploy within; if populated will override the 'network' setting | `string` | `""` | no |
 | <a name="input_target_size"></a> [target\_size](#input\_target\_size) | The number of servers to deploy | `number` | `1` | no |
 | <a name="input_telemetry_enabled"></a> [telemetry\_enabled](#input\_telemetry\_enabled) | Whether or not to send telemetry information back to Snowplow Analytics Ltd | `bool` | `true` | no |
-| <a name="input_ubuntu_20_04_source_image"></a> [ubuntu\_20\_04\_source\_image](#input\_ubuntu\_20\_04\_source\_image) | The source image to use which must be based of of Ubuntu 20.04; by default the latest community version is used | `string` | `""` | no |
+| <a name="input_ubuntu_24_04_source_image"></a> [ubuntu\_24\_04\_source\_image](#input\_ubuntu\_24\_04\_source\_image) | The source image to use which must be based of of Ubuntu 24.04; by default the latest community version is used | `string` | `""` | no |
 | <a name="input_user_provided_id"></a> [user\_provided\_id](#input\_user\_provided\_id) | An optional unique identifier to identify the telemetry events emitted by this stack | `string` | `""` | no |
 
 ## Outputs
